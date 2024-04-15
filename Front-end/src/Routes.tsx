@@ -14,6 +14,7 @@ import BlogDetailPage from "./pages/BlogDetailPage";
 import BlogPage from "./pages/BlogPage";
 import BlogAdmin from "./pages/BlogAdmin";
 import CreateBlog from "./pages/CreateBlog";
+import ReviewPage from "./pages/ReviewPage";
 export {
   LoginPage,
   SignUpPage,
@@ -30,5 +31,6 @@ export {
   BlogPage,
   BlogDetailPage,
   BlogAdmin,
-  CreateBlog
+  CreateBlog,
+  ReviewPage
 };

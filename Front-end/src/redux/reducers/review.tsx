@@ -117,7 +117,20 @@ export const reviewReducer = createReducer(initialState, {
     state.isLoading = false;
     state.error = action.payload;
   },
-
+  getAllReviewsRequest: (state: any) => {
+    state.isLoading = true;
+  },
+  getAllReviewsSuccess: (state: any, action: any) => {
+    state.isLoading = false;
+    state.reviews = action.payload;
+    // console.log(action)
+    state.success = true;
+  },
+  getAllReviewsFail: (state: any, action: any) => {
+    state.isLoading = false;
+    state.error = action.payload;
+    state.success = false;
+  },
   clearErrors: (state: any) => {
     state.error = null;
   },

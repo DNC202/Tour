@@ -86,7 +86,7 @@ export const getAllReviews = () => async (dispatch: Dispatch<AnyAction>) => {
         const { data } = await axios.get(`${server}/review/get-all-reviews`);
         dispatch({
         type: "getAllReviewsSuccess",
-        payload: data.reviews,
+        payload: data.data,
         });
     } catch (error: any) {
         dispatch({

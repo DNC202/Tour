@@ -42,6 +42,15 @@ const AdminNav = () => {
             <h6 className="text-default">Revenue</h6>
           </Link>
         </li>
+        <li className="categoriesitem">
+          <Link
+            to="/admin/reviews"
+            className="categoriesitem--link gap-2 border-m d-flex flex-column justify-content-center align-items-center"
+          >
+            <i className="fa-solid fa-newspaper"></i>
+            <h6 className="text-default">Review</h6>
+          </Link>
+        </li>
       </ul>
     </div>
   );
