@@ -8,43 +8,56 @@ import Blog from "../model/Blog.model";
 
 const router = express.Router();
 
-router.post("/create-review-tour", asyncMiddleware(async (req: any, res: Response, next: NextFunction) => {
-    try {
-        
+router.post(
+    "/create-review-tour",
+    asyncMiddleware(async (req: any, res: Response, next: NextFunction) => {
+      try {
         const reviewData = req.body;
         const user = await User.findById(reviewData.userId);
         const tour = await Tour.findById(reviewData.tourId);
-
-        const ReviewData = {
-            rating: reviewData.rating,
-            comments: reviewData.comments,
-            user: user,
-        }
-        const createReview = await Review.create(ReviewData);
-
+  
+        const sentence = reviewData.comments;
+        const probret = await axios.post(
+          "http://127.0.0.1:5000/api/v1/summarize",
+          {
+            sentence,
+          }
+        );
+        const comment = probret.data.probret;
+  
+        const newReviews = {
+          rating: reviewData.rating,
+          comments: reviewData.comments,
+          probret: comment,
+          user: user,
+          tour: tour,
+        };
+        //   console.log(newReviews);
+        const createReview = await Review.create(newReviews);
+  
         const SubmitTour = await Tour.findByIdAndUpdate(tour?._id, {
-            $push: {reviews: createReview._id}
-        })
-
-        console.log(SubmitTour);
-
-        if(!SubmitTour) {
-            res.status(500).json({
-                success: false,
-                message: "error comment",
-                data: reviewData
-            })
-
+          $push: { reviews: createReview._id },
+        });
+  
+        //   console.log(SubmitTour);
+  
+        if (!SubmitTour) {
+          res.status(500).json({
+            success: false,
+            message: "error comment",
+            data: reviewData,
+          });
         }
         res.status(201).json({
-            success: true,
-            message: "Review summited",
-            data: SubmitTour
-        })
-    } catch (error: any) {
+          success: true,
+          message: "Review summited",
+          data: SubmitTour,
+        });
+      } catch (error: any) {
         return next(new ErrorHandler(error.message, 500));
-    }
-}))
+      }
+    })
+  );
 
 
 router.post("/create-review-blog", asyncMiddleware(async (req: any, res: Response, next: NextFunction) => {
